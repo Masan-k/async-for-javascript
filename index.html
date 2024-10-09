@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript 同期処理Sample</title>
+  <title>JavaScriptの非同期処理の検証コード置き場</title>
 </head>
 <body>
 
-  <h1 id="header">Hello, World!</h1>
+  <h1 id="header">JavaScriptの非同期処理の検証コード置き場</h1>
+  <p id="dummy">dummyテキスト</p>
   <button onclick="changeText()">changeText</button>
   <button onclick="doWhileSample()">doWhileSample</button>
   <button onclick="setTimeoutSample()">setTimeoutSample</button>
@@ -17,9 +18,11 @@
   <button onclick="asyncSample1()">asyncSample1</button>
   <button onclick="asyncSample2()">asyncSample2</button>
   <h2>メモ</h2>
-  <p>resolveを呼び出したタイミングで.thenが処理される...proiseSample1()</p>
+  <ul>
+    <li>結果はコンソールで確認</li>
+    <li>resolveを呼び出したタイミングで.thenが処理される...proiseSample1()</li>
+  </ul>
 
-  <p id="dummy">dummy dummy</p>
 
   <script>
    
