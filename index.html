@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript Sample</title>
+  <title>JavaScript 同期処理Sample</title>
 </head>
 <body>
 
@@ -13,27 +13,16 @@
   <button onclick="setTimeoutSample()">setTimeoutSample</button>
   <button onclick="setTimeoutSample2()">setTimeoutSample2</button>
   <button onclick="promiseSample1()">promiseSample1</button>
+  <button onclick="promiseSample2()">promiseSample2</button>
+  <button onclick="asyncSample1()">asyncSample1</button>
+  <button onclick="asyncSample2()">asyncSample2</button>
   <h2>メモ</h2>
-  <p>resolveを呼び出したタイミングで.thenが処理される(proiseSample1)</p>
+  <p>resolveを呼び出したタイミングで.thenが処理される...proiseSample1()</p>
 
   <p id="dummy">dummy dummy</p>
 
   <script>
-    function promiseSample1(){
-      const promise = new Promise((resolve,reject)=>{
-        setTimeout(()=>{
-          console.log("3秒経過");
-        //成功した処理
-          resolve();
-        },3000);
-      })
-      promise.then(()=>{
-        console.log("promise成功");
-      }).then(()=>{
-        console.log("2かいめのthen処理");
-      })
-    }
-    
+   
     function changeText() {
       var dummy1 = document.getElementById("dummy");
       dummy1.innerHTML = "Text has been changed!";
@@ -58,7 +47,6 @@
         console.log("2秒経ちました");
       },2000)
     }
-    
     function setTimeoutSample2(){
       setTimeout(()=>{
         console.log('3秒経過');
@@ -67,8 +55,91 @@
         },2000)
       },3000)
     }
+    function promiseSample1(){
+      const promise = new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+          console.log("3秒経過");
+          resolve(); //成功処理
+        },3000);
+      })
+      promise.then(()=>{
+        console.log("promise成功");
+      })
+    }
+    function promiseSample2(){
+      const promise = new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+          console.log("3秒経過");
+          resolve(); //成功処理
+        },3000);
+      })
 
-  </script>
+      promise.then(()=>{
+        const promise2 = new Promise((resolve,reject)=>{
+          console.log("1回目のthen");
+          setTimeout(()=>{
+            console.log("2秒経過");
+            resolve(); //成功処理
+          },2000);
+        })
+
+        promise2.then(()=>{
+          console.log("2回目のthen");
+        })
+      })
+    }
+
+    function asyncSample1(){
+      function wait3seconds(){
+        return new Promise((resolve, reject)=>{
+          setTimeout(()=>{
+            console.log('3秒経過');
+            resolve();
+          },3000)
+        })
+      }
+
+      function wait2seconds(){
+        return new Promise((resolve, reject)=>{
+          setTimeout(()=>{
+            console.log('2秒経過');
+            resolve();
+          },2000)
+        })
+      }
+      async function sampleFunc(){
+        await wait3seconds();
+        await wait2seconds();
+      }
+      sampleFunc();
+    }
+
+    function asyncSample2(){
+      const dummyArrayString = ["aaaa","bbbb"];
+      function wait3seconds(){
+        return new Promise((resolve, reject)=>{
+          setTimeout(()=>{
+            console.log('3秒経過');
+            resolve(dummyArrayString);
+          },3000)
+        })
+      }
+
+      function wait2seconds(){
+        return new Promise((resolve, reject)=>{
+          setTimeout(()=>{
+            console.log('2秒経過');
+            resolve("bbbbb");
+          },2000)
+        })
+      }
+      async function sampleFunc(){
+        console.log(await wait3seconds());
+        console.log(await wait2seconds());
+      }
+      sampleFunc();
+    }
+   </script>
 
 </body>
 </html>
