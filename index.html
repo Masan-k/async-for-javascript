@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Sample</title>
+</head>
+<body>
+
+  <h1 id="header">Hello, World!</h1>
+  <button onclick="changeText()">changeText</button>
+  <button onclick="doWhileSample()">doWhileSample</button>
+  <button onclick="setTimeoutSample()">setTimeoutSample</button>
+  <button onclick="setTimeoutSample2()">setTimeoutSample2</button>
+  <button onclick="promiseSample1()">promiseSample1</button>
+  <h2>メモ</h2>
+  <p>resolveを呼び出したタイミングで.thenが処理される(proiseSample1)</p>
+
+  <p id="dummy">dummy dummy</p>
+
+  <script>
+    function promiseSample1(){
+      const promise = new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+          console.log("3秒経過");
+        //成功した処理
+          resolve();
+        },3000);
+      })
+      promise.then(()=>{
+        console.log("promise成功");
+      }).then(()=>{
+        console.log("2かいめのthen処理");
+      })
+    }
+    
+    function changeText() {
+      var dummy1 = document.getElementById("dummy");
+      dummy1.innerHTML = "Text has been changed!";
+      displayMessageDelay();
+    }
+    function doWhileSample(){
+      const startDate = Date.now();
+      let currentDate = null;
+      const waitTimeInMilliseconds = 3000;
+      do{
+        currentDate = Date.now();
+      }while(
+        (currentDate - startDate) < waitTimeInMilliseconds
+      );
+      console.log('一定時間が経ちました');
+    }
+    function setTimeoutSample(){
+      setTimeout(()=>{
+        console.log("３秒経ちました");
+      },3000)
+      setTimeout(()=>{
+        console.log("2秒経ちました");
+      },2000)
+    }
+    
+    function setTimeoutSample2(){
+      setTimeout(()=>{
+        console.log('3秒経過');
+        setTimeout(()=>{
+          console.log('2秒経過');
+        },2000)
+      },3000)
+    }
+
+  </script>
+
+</body>
+</html>
+
